@@ -16,7 +16,7 @@ router.get('/tweets', function(req, res) {
 /* GET home page */
 router.get('/', function(req, res) {
 
-  res.render('index', {title: 'Tweets'});
+  res.render('index', {title: 'kevincoleman.io'});
 });
 
 module.exports = router;

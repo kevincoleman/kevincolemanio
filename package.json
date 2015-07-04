@@ -9,8 +9,6 @@
     "ejs": "~0.8.5",
     "express": "*",
     "request": "*",
-    "xml2json": "*",
-    "json2xml": "*",
     "qs": "*"
   },
   "engines": {
