@@ -1,15 +1,19 @@
 {
-  "name": "twitter",
+  "name": "twitterStream",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
+    "socket.io": "1.3.5",
+    "nodemon": "1.3.7",
+    "html-linkify": "1.2.1",
+    "html-entities": "1.1.2",
+    "node-tweet-stream": "1.8.2",
     "ejs": "~0.8.5",
-    "express": "*",
-    "request": "*",
-    "qs": "*"
+    "express": "4.13.1",
+    "request": "2.58.0"
   },
   "engines": {
     "node": "0.10.x",

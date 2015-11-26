@@ -1,24 +1,37 @@
 var express = require('express');
-var path = require('path');
-var index = require('./routes/index');
+var routes = require('./routes');
+var http = require('http');
+var linkify = require('html-linkify');
+var Entities = require('html-entities').AllHtmlEntities;
+var entities = new Entities();
+
+// Term to track
+var term = 'lettering';
+ 
 var app = express();
+var server = app.listen(3000);
+var io = require('socket.io').listen(server);
 
-// serve static assets from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+  // configure express app
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'ejs');
+  app.use(express.static(__dirname + '/public'));
+ 
+app.get('/', require('./routes/index'));
 
-//look for view html in the views direcory
-app.set('views', path.join(__dirname, 'views'));
+io.on('connection', function(socket){
+  console.log('a client has connected');
 
-// use ejs to render
-app.set('view engine', 'ejs');
+  var cfg = require('./config.json');
+  var tw = require('node-tweet-stream')(cfg);
+  tw.track(term);
+  tw.on('tweet', function(tweet){
+    var tweetText = entities.decode(linkify(tweet.text));
+    console.log(tweetText);
+    io.emit('tweet', tweetText);
+  })
 
-//setup routes
-app.use('/', index);
-
-
-module.exports = app;
-
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log('Listening on ' + port);
-});
+})
+ 
+ 
+console.log("Express server listening on port 3000");
